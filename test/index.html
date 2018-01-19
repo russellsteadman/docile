@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Docile Test Suite</title>
+    <script src="/dist/docile.js"></script>
+    <script>
+        window.addEventListener('DOMContentLoaded', function () {
+            Docile.set(document.body, 'water');
+            document.getElementById('water').innerHTML += Docile.get(document.body);
+            Docile.set('water', {is: 'wet'});
+        });
+    </script>
+</head>
+<body>
+    body of
+    <span id="water">&nbsp;</span>
+</body>
+</html>
