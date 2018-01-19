@@ -1,6 +1,6 @@
 {
   "name": "docile",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Docile stores information, such as objects, about DOM nodes and retrieves it",
   "main": "index.js",
   "repository": "https://github.com/teamtofu/docile.git",
