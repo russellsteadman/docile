@@ -111,7 +111,7 @@ linkInstance.get(alias);
 linkInstance.get();
 ```
 
-##### linkInstance.get
+##### linkInstance.getData
 Purpose: to retrieve data from "links"
 
 The getData method accepts one parameter: an alias. It returns the data from the corresponding link. If no alias is passed, then an object with aliases mapped to data will be returned.

@@ -7,7 +7,7 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'), 
     filename: 'docile.js',
     library: 'Docile',
-    libraryTarget: 'this'
+    libraryTarget: 'window'
   },
 
   module: {
@@ -41,4 +41,4 @@ module.exports = {
       }
     })
   ]
-}
+};

@@ -1,10 +1,10 @@
 {
   "name": "docile",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Docile stores information, such as objects, about DOM nodes and retrieves it",
   "main": "index.js",
   "repository": "https://github.com/teamtofu/docile.git",
-  "homepage": "https://teamtofu.github.io/docile/",
+  "homepage": "https://docile.js.org/",
   "author": "Russell Steadman <russell@unatetra.com> (https://teamtofu.github.io/)",
   "license": "MIT",
   "bugs": {
@@ -22,9 +22,10 @@
     "element",
     "node",
     "browser",
-    "data"
+    "data",
+    "attribute"
   ],
   "scripts": {
-    "build": "webpack"
+    "build": "webpack && webpack --config test/webpack/webpack.config.js"
   }
 }
