@@ -92,12 +92,25 @@ module.exports = __webpack_require__(2);
 /* 2 */
 /***/ (function(module, exports) {
 
-var error = console.error.bind(this, 'Docile: ');
-
 var domReady = ['loaded', 'interactive', 'complete'].indexOf(document.readyState) >= 0;
 
 var attrId = 'data-docile-id';
 var attrStore = 'data-docile-store';
+
+var nativeBind = Function.prototype.bind;
+var slice = Array.prototype.slice;
+
+var bindTo = function (func, context) {
+    if (nativeBind && func.bind === nativeBind) {
+        return nativeBind.apply(func, slice.call(arguments, 1));
+    }
+    var args = slice.call(arguments, 2);
+    return function () {
+        return func.apply(context, args.concat(slice.call(arguments)));
+    };
+};
+
+var error = bindTo(console.error, this, 'Docile: ');
 
 var createId = function (node) {
     var id = node.getAttribute(attrId);
@@ -209,9 +222,9 @@ var link = function (node) {
     var id = createId(node);
     var DocileLink = new Object();
     DocileLink.id = id;
-    DocileLink.set = setLink.bind(DocileLink, this);
-    DocileLink.get = getLink.bind(DocileLink, this);
-    DocileLink.getData = getLinkData.bind(DocileLink, this);
+    DocileLink.set = bindTo(setLink, DocileLink, this);
+    DocileLink.get = bindTo(getLink, DocileLink, this);
+    DocileLink.getData = bindTo(getLinkData, DocileLink, this);
     return DocileLink;
 };
 
@@ -225,16 +238,16 @@ var Docile = new Object();
 /**
  * @param {(string|Object)} node - The DOM node or node id
  */
-Docile.get = get.bind(Docile);
+Docile.get = bindTo(get, Docile);
 /**
  * @param {(string|Object)} node - The DOM node or node id
  * @param {*} data - The data to be stored
  */
-Docile.set = set.bind(Docile);
+Docile.set = bindTo(set, Docile);
 /**
  * @param {(string|Object)} node - The DOM node for accessing a link
  */
-Docile.link = link.bind(Docile);
+Docile.link = bindTo(link, Docile);
 
 var initialData = revive();
 Docile.store = initialData.store || {};
