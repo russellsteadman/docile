@@ -96,11 +96,14 @@ var error = console.error.bind(this, 'Docile: ');
 
 var domReady = ['loaded', 'interactive', 'complete'].indexOf(document.readyState) >= 0;
 
+var attrId = 'data-docile-id';
+var attrStore = 'data-docile-store';
+
 var createId = function (node) {
-    var id = node.dataset.docileId;
+    var id = node.getAttribute(attrId);
     if (!id) {
         id = Math.random().toString(36).substr(2);
-        node.dataset.docileId = id;
+        node.setAttribute(attrId, id);
         return id;
     }
     return id;
@@ -121,14 +124,14 @@ var findNode = function (node) {
 };
 
 var findById = function (id) {
-    return document.querySelector('[data-docile-id="' + id + '"]');
+    return document.querySelector('[' + attrId + '="' + id + '"]');
 };
 
 var revive = function () {
     var data = {store:{},linkStore:{}};
-    if (!document.head.dataset.docileStore) document.head.dataset.docileStore = '{"store":{},"linkStore":{}}';
+    if (!document.head.getAttribute(attrStore)) document.head.setAttribute(attrStore, '{"store":{},"linkStore":{}}');
     try {
-        data = JSON.parse(document.head.dataset.docileStore);
+        data = JSON.parse(document.head.getAttribute(attrStore));
     } catch (e) {
         error('Data could not be resumed.');
     }
@@ -137,7 +140,7 @@ var revive = function () {
 
 var persist = function (storeData, linkStoreData) {
     try {
-        document.head.dataset.docileStore = JSON.stringify({store: storeData, linkStore: linkStoreData});
+        document.head.setAttribute(attrStore, JSON.stringify({store: storeData, linkStore: linkStoreData}));
     } catch (e) {
         error('Data could not be saved.');
     }

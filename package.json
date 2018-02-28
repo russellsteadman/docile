@@ -26,6 +26,8 @@
     "attribute"
   ],
   "scripts": {
-    "build": "webpack && webpack --config test/webpack/webpack.config.js"
+    "build": "webpack && webpack --config test/webpack/webpack.config.js",
+    "test-cred": "sh ./test/sauce/cred.sh",
+    "test": "sh ./test/sauce/run.sh"
   }
 }

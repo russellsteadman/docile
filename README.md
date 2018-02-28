@@ -122,6 +122,16 @@ linkInstance.getData(alias);
 linkInstance.getData();
 ```
 
+## Testing
+
+Docile is tested using Jasmine. The test of the minified packages is available [here](https://docile.js.org/test/index.html) and the webpack package [here](https://docile.js.org/test/webpack.html).
+
+### Big Thanks
+
+[![Sauce Labs](https://docile.js.org/test/sauce/saucelabs.png)](https://saucelabs.com/)
+
+Cross-browser Testing Platform and Open Source <3 Provided by [Sauce Labs](https://saucelabs.com/)!
+
 ## License
 
 MIT (C) [Russell Steadman](https://teamtofu.github.io/contact). Learn more in the [LICENSE](https://github.com/teamtofu/docile/blob/master/LICENSE) file.

@@ -50,3 +50,5 @@ window.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+
+window.jasmine.getEnv().addReporter(new window.jasmine.JSReporter2());
