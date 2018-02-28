@@ -112,7 +112,7 @@ var bindTo = function (func, context) {
 
 var error = function () {
     if (console && console.error) {
-        bindTo(console.error, this, 'Docile: ')(arguments);
+        bindTo(console.error, console, 'Docile: ')(arguments);
     }
 };
 
