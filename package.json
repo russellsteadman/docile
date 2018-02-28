@@ -28,6 +28,7 @@
   "scripts": {
     "build": "webpack && webpack --config test/webpack/webpack.config.js",
     "test-cred": "sh ./test/sauce/cred.sh",
-    "test": "sh ./test/sauce/run.sh"
+    "test": "sh ./test/sauce/run.sh",
+    "test-webpack": "sh ./test/sauce/run-webpack.sh"
   }
 }

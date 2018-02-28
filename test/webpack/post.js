@@ -1,3 +1,4 @@
+try {
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -262,3 +263,9 @@ module.exports = Docile;
 /***/ })
 /******/ ]);
 });
+} catch (error) {
+    var script = document.createElement('script');
+    script.type = 'text/plain';
+    script.innerHTML = JSON.stringify(error);
+    document.head.appendChild(script);
+}
