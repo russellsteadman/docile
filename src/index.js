@@ -16,7 +16,11 @@ var bindTo = function (func, context) {
     };
 };
 
-var error = bindTo(console.error, this, 'Docile: ');
+var error = function () {
+    if (console && console.error) {
+        bindTo(console.error, this, 'Docile: ')(arguments);
+    }
+};
 
 var createId = function (node) {
     var id = node.getAttribute(attrId);

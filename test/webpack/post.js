@@ -1,4 +1,3 @@
-try {
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -111,7 +110,11 @@ var bindTo = function (func, context) {
     };
 };
 
-var error = bindTo(console.error, this, 'Docile: ');
+var error = function () {
+    if (console && console.error) {
+        bindTo(console.error, this, 'Docile: ')(arguments);
+    }
+};
 
 var createId = function (node) {
     var id = node.getAttribute(attrId);
@@ -263,7 +266,3 @@ module.exports = Docile;
 /***/ })
 /******/ ]);
 });
-} catch (error) {
-    document.body.innerHTML = error;
-    alert(error);
-}
