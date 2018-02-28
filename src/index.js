@@ -89,11 +89,11 @@ var getLink = function (main, alias) {
         if (typeof alias !== 'string') return error('Link name must be a string.');
         return findById(main.linkStore[this.id][alias]);
     } else {
-        var listLinks = Object.assign({}, main.linkStore[this.id]);
-        for (var i in listLinks) {
-            listLinks[i] = findById(listLinks[i]);
+        var links = {};
+        for (var i in main.linkStore[this.id]) {
+            links[i] = findById(main.linkStore[this.id][i]);
         }
-        return listLinks;
+        return links;
     }
 };
 
