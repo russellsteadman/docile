@@ -1,3 +1,5 @@
+/* global describe it expect Docile */
+
 window.addEventListener('DOMContentLoaded', function () {
     describe('Docile global', function () {
         var title = document.getElementsByTagName('title')[0];
@@ -8,8 +10,6 @@ window.addEventListener('DOMContentLoaded', function () {
             expect(typeof Docile.get).toEqual('function');
             expect(typeof Docile.set).toEqual('function');
             expect(typeof Docile.link).toEqual('function');
-            expect(typeof Docile.store).toEqual('object');
-            expect(typeof Docile.linkStore).toEqual('object');
         });
         it('can set and get data', function () {
             Docile.set(title, 'jelly beans');
@@ -30,7 +30,7 @@ window.addEventListener('DOMContentLoaded', function () {
         });
         it('has all attributes', function () {
             var titleLink = Docile.link(title);
-            expect(typeof titleLink.id).toEqual('string');
+            expect(typeof titleLink.state.id).toEqual('string');
             expect(typeof titleLink.set).toEqual('function');
             expect(typeof titleLink.get).toEqual('function');
             expect(typeof titleLink.getData).toEqual('function');

@@ -1,20 +1,34 @@
 {
   "name": "docile",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "Docile stores information, such as objects, about DOM nodes and retrieves it",
-  "main": "index.js",
+  "main": "dist/docile.node.js",
   "repository": "https://github.com/teamtofu/docile.git",
   "homepage": "https://docile.js.org/",
-  "author": "Russell Steadman <russell@unatetra.com> (https://teamtofu.github.io/)",
+  "author": "Russell Steadman <steadman.21@osu.edu> (https://www.russellsteadman.com/)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/teamtofu/docile/issues",
-    "email": "russell@unatetra.com"
+    "email": "steadman.21@osu.edu"
   },
   "private": false,
   "devDependencies": {
-    "uglifyjs-webpack-plugin": "^1.1.5",
-    "webpack": "^3.10.0"
+    "@babel/core": "^7.5.5",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-proposal-private-methods": "^7.4.4",
+    "@babel/plugin-transform-spread": "^7.2.2",
+    "@babel/preset-env": "^7.5.5",
+    "babel-eslint": "^10.0.2",
+    "babel-jest": "^24.8.0",
+    "babel-loader": "^8.0.6",
+    "core-js": "^3.1.4",
+    "eslint": "^6.1.0",
+    "jest": "^24.8.0",
+    "jest-environment-puppeteer": "^4.3.0",
+    "puppeteer": "^1.18.1",
+    "regenerator-runtime": "^0.13.2",
+    "webpack": "^4.36.1",
+    "webpack-cli": "^3.3.6"
   },
   "keywords": [
     "docile",
@@ -26,9 +40,14 @@
     "attribute"
   ],
   "scripts": {
-    "build": "webpack && webpack --config test/webpack/webpack.config.js",
-    "test-cred": "sh ./test/sauce/cred.sh",
-    "test": "sh ./test/sauce/run.sh",
-    "test-webpack": "sh ./test/sauce/run-webpack.sh"
+    "build": "webpack --config config/webpack.config.js && webpack --config config/webpack.config.node.js",
+    "test": "jest"
+  },
+  "jest": {
+    "clearMocks": true,
+    "collectCoverage": false,
+    "globalSetup": "jest-environment-puppeteer/setup",
+    "globalTeardown": "jest-environment-puppeteer/teardown",
+    "testEnvironment": "jest-environment-puppeteer"
   }
 }
