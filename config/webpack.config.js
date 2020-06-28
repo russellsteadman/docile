@@ -1,54 +1,56 @@
 /* global __dirname */
-const path = require('path');
-//const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const path = require("path");
+const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 
 module.exports = {
-  entry: './src/index.js',
+  entry: "./src/docile.ts",
   output: {
-    path: path.resolve(__dirname, '../dist'), 
-    filename: 'docile.js',
-    library: 'Docile',
-    libraryTarget: 'window'
+    path: path.resolve(__dirname, "../dist"),
+    filename: "docile.js",
+    library: "Docile",
+    libraryTarget: "window",
+    libraryExport: "default",
   },
 
   module: {
     rules: [
-        {
-            test: /\.js$/,
-            exclude: /(node_modules|bower_components)/,
-            use: {
-              loader: 'babel-loader',
-              options: {
-                rootMode: 'upward'
-              }
-            }
-        }
-    ]
+      {
+        test: /\.ts$/,
+        exclude: /(node_modules|bower_components)/,
+        use: [
+          {
+            loader: "babel-loader",
+            options: {
+              rootMode: "upward",
+            },
+          },
+          {
+            loader: "ts-loader",
+            options: {
+              transpileOnly: true,
+            },
+          },
+        ],
+      },
+    ],
   },
+
+  plugins: [
+    new ForkTsCheckerWebpackPlugin({
+      typescript: {
+        configFile: path.join(__dirname, "../tsconfig.json"),
+      },
+    }),
+  ],
 
   resolve: {
-    modules: [
-      'node_modules',
-      path.resolve(__dirname, './src')
-    ],
-    extensions: ['.js', '.json']
+    modules: ["node_modules", path.resolve(__dirname, "src")],
+    extensions: [".js", ".ts", ".json"],
   },
 
-  /*optimization: {
-    minimizer: [
-      new UglifyJsPlugin({
-        uglifyOptions: {
-          mangle: {
-            reserved: ['Docile', 'DocileLink']
-          }
-        }
-      })
-    ]
-  },*/
+  context: path.resolve(__dirname, ".."),
+  target: "web",
+  mode: "production",
 
-  context: path.resolve(__dirname, '..'),
-  target: 'web',
-  mode: 'production',
-
-  plugins: []
+  plugins: [],
 };

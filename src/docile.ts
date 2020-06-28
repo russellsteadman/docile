@@ -3,39 +3,28 @@ const docilePrefix = 'data-docile-';
 const attrId = `${docilePrefix}id`;
 const attrStore = `${docilePrefix}store`;
 
-const error = () => {
+const error = function (...args: any) {
     if (typeof console === 'object') {
-        let args = Array.prototype.slice.call(arguments);
-        let logFunc = Function.prototype.bind.call(console.error, console);
-        logFunc.apply(console, ['[Docile] '].concat(args));
+        console.error('[Docile] ', ...args);
     }
 };
 
 class Utility {
-    #state = {
-        ready: false
-    };
-
-    constructor () {
-        if (!this.ready) window.addEventListener('DOMContentLoaded', () => {
-            this.#state.ready = true;
-        });
-    }
-
     get ready() {
-        let docState = ['loaded', 'interactive', 'complete'].indexOf(document.readyState) !== -1;
-        
-        return docState || this.#state.ready;
+        return ['loaded', 'interactive', 'complete'].indexOf(document.readyState) !== -1;
     }
 
-    findNode(node) {
-        if (!this.ready) return error('DOM not loaded. Learn more: https://goo.gl/EsYspK') || null;
+    findNode(node?: string | HTMLElement | null) {
+        if (!this.ready) {
+            error('DOM not loaded. Learn more: https://goo.gl/EsYspK');
+            return;
+        }
         if (typeof node === 'string') node = document.getElementById(node);
-        if (node) return node;
+        if (node) return <HTMLElement>node;
         error('Unable to resolve node.');
     }
 
-    idFromNode(node) {
+    idFromNode(node?: string | HTMLElement) {
         node = this.findNode(node);
         if (!node) return;
 
@@ -49,21 +38,24 @@ class Utility {
         return id;
     }
 
-    findById(id) {
+    findById(id: string) {
         return document.querySelector(`[${attrId}="${id}"]`);
     }
 
-    storage(useLinkStore, key, value) {
-        let stores = {
+    storage(useLinkStore: boolean, key: string, value?: any) {
+        let stores: {
+            store: {[key: string]: any},
+            linkStore: {[key: string]: any},
+        } = {
             store: {},
             linkStore: {}
         };
         let { head } = document;
-        let name = useLinkStore ? 'store' : 'linkStore';
+        let name: 'store' | 'linkStore' = useLinkStore ? 'store' : 'linkStore';
     
         try {
             if (!head.getAttribute(attrStore)) head.setAttribute(attrStore, JSON.stringify(stores));
-            stores = JSON.parse(head.getAttribute(attrStore));
+            stores = JSON.parse(head.getAttribute(attrStore) ?? '');
         } catch (e) {
             error('Data could not be resumed.');
         }
@@ -83,7 +75,15 @@ class Utility {
 }
 
 class DocileLink extends Utility {
-    constructor(Docile, id) {
+    state: {
+        id: string;
+    } = {
+        id: '',
+    };
+
+    Docile: Docile;
+
+    constructor(Docile: Docile, id: string) {
         super();
 
         this.state = {
@@ -93,7 +93,7 @@ class DocileLink extends Utility {
         this.Docile = Docile;
     }
 
-    set(alias, node) {
+    set(alias: string | {[key: string]: HTMLElement}, node?: HTMLElement) {
         this.storage(true, this.state.id, this.storage(true, this.state.id) || {});
         if (typeof alias === 'string') {
             node = this.findNode(node);
@@ -110,7 +110,7 @@ class DocileLink extends Utility {
         return this;
     }
     
-    get(alias) {
+    get(alias?: string) {
         this.storage(true, this.state.id, this.storage(true, this.state.id) || {});
         if (alias) {
             if (typeof alias !== 'string') return error('Link name must be a string.');
@@ -124,7 +124,7 @@ class DocileLink extends Utility {
         }
     }
     
-    getData(alias) {
+    getData(alias?: string) {
         if (alias) {
             return this.Docile.get(this.get(alias));
         } else {
@@ -142,25 +142,25 @@ class Docile extends Utility {
         super();
     }
 
-    set(node, data) {
+    set(node?: string | HTMLElement, data?: any) {
         node = this.findNode(node);
         if (!node) return;
-        var id = this.idFromNode(node);
-        this.storage(false, id, data);
+        const id = this.idFromNode(node);
+        if (id) this.storage(false, id, data);
         return this;
     }
     
-    get(node) {
+    get(node?: string | HTMLElement) {
         var id = this.idFromNode(node);
         if (!id) return;
         return this.storage(false, id);
     }
 
-    link(node) {
+    link(node?: string | HTMLElement) {
         var id = this.idFromNode(node);
         if (!id) return;
         return new DocileLink(this, id);
     }
 }
 
-module.exports = new Docile();
+export default new Docile();
